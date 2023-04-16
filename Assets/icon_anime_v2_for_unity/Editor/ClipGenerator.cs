@@ -155,10 +155,9 @@ public class ClipGenerator : EditorWindow
             {
                 fileName = Path.GetFileNameWithoutExtension(file_path).Replace(ORIGIN_NO, "");
 
-
+                prefix = fileName.Replace($"{ORIGIN_NO}.png", "");
                 if (file_path.IndexOf(PREFIX_15FPS) != -1)
                 {
-                    prefix += PREFIX_15FPS;
                     fileName = fileName.Replace(PREFIX_15FPS, "");
                     fps = 15;
                 }
@@ -167,20 +166,17 @@ public class ClipGenerator : EditorWindow
                 {
                     fileName = fileName.Replace(PREFIX_PLAYONCE, "");
                     isLooping = false;
-                    prefix += PREFIX_PLAYONCE;
                 }
 
                 if (file_path.IndexOf(PREFIX_LOOP) != -1)
                 {
                     fileName = fileName.Replace(PREFIX_LOOP, "");
                     isLooping = true;
-                    prefix += PREFIX_LOOP;
                 }
 
                 if (file_path.IndexOf(PREFIX_REND) != -1)
                 {
                     fileName = fileName.Replace(PREFIX_REND, "");
-                    prefix += PREFIX_REND;
                 }
             }
 
@@ -214,7 +210,13 @@ public class ClipGenerator : EditorWindow
         var atlasPath = $"{dstDirectoryPath}/{fileName}.spriteatlas";
         AssetDatabase.CreateAsset(spriteAtlas, atlasPath);
         var prefabPath = $"{dstDirectoryPath}/{fileName}.asset";
-        var icon_anime_v2_prefab = Clip.Generate(spriteAtlas, prefix, fps, isLooping);
+
+        var icon_anime_v2_prefab = Clip.Generate(
+            spriteAtlas: spriteAtlas,
+            prefix: prefix,
+            fps: fps,
+            isLooping: isLooping,
+            frameCount: sprites.Count);
 
         AssetDatabase.CreateAsset(icon_anime_v2_prefab, prefabPath);
         AssetDatabase.SaveAssets();
