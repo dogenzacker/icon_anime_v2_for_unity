@@ -11,7 +11,7 @@ namespace icon_anime_v2
             get
             {
                 if (m_icon_anime_v2_clip == null) return 0;
-                return (float)ClampFrameCount(DurationToTotalFrameCount(m_ElapsedTime)) / (float)m_icon_anime_v2_clip.frameCount;
+                return (float)ClampFrameCount(DurationToTotalFrameCount(m_ElapsedTime)) / (float)m_icon_anime_v2_clip.FrameCount;
             }
         }
 
@@ -59,13 +59,12 @@ namespace icon_anime_v2
             var totalFrameCount = DurationToTotalFrameCount(m_ElapsedTime);
             var clampFrameCount = ClampFrameCount(totalFrameCount);
 
-            if (this.m_icon_anime_v2_clip.frameCount <= totalFrameCount && this.m_icon_anime_v2_clip.isLooping == false)
+            if (this.m_icon_anime_v2_clip.FrameCount <= totalFrameCount && this.m_icon_anime_v2_clip.IsLoopng == false)
             {
                 Stop();
                 return;
             }
-
-            SetFrame(totalFrameCount);
+            SetFrame(clampFrameCount);
         }
 
         private void OnDestroy()
@@ -143,7 +142,7 @@ namespace icon_anime_v2
 
         private int ClampFrameCount(int frameCount)
         {
-            return frameCount % this.m_icon_anime_v2_clip.frameCount;
+            return frameCount % this.m_icon_anime_v2_clip.FrameCount;
         }
 
         private float FrameToDruation(int frameCount)
