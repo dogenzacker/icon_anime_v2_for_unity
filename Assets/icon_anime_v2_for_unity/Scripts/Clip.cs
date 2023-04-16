@@ -5,32 +5,27 @@ namespace icon_anime_v2
     public class Clip : ScriptableObject
     {
         [SerializeField]
-        private string prefix;
+        private string m_Prefix;
 
         [SerializeField]
-        private float fps;
-        public float FPS => fps;
+        private int m_FrameCount;
 
         [SerializeField]
-        public bool isLooping = false;
+        private float m_FPS;
 
         [SerializeField]
-        private SpriteAtlas m_SpriteAtlas; // Sprite Atlasの参照
+        private bool m_IsLooping;
 
-        public int frameCount
-        {
-            get
-            {
+        [SerializeField]
+        private SpriteAtlas m_SpriteAtlas;
 
-                Debug.Log("m_SpriteAtlas?:" + m_SpriteAtlas);
-                Debug.Log("m_SpriteAtlas.spriteCount?:" + m_SpriteAtlas.spriteCount);
-                return m_SpriteAtlas.spriteCount;
-            }
-        }
+        public bool IsLoopng => m_IsLooping;
+        public float FPS => m_FPS;
+        public int FrameCount => m_FrameCount;
 
         public Sprite GetFrame(int frameCount)
         {
-            Sprite sprite = m_SpriteAtlas.GetSprite($"{m_SpriteAtlas.name}{prefix}_{frameCount:D5}");
+            Sprite sprite = m_SpriteAtlas.GetSprite($"{m_Prefix}_{frameCount:D5}");
             return sprite;
         }
 
@@ -57,13 +52,14 @@ namespace icon_anime_v2
         }
 
 #if UNITY_EDITOR
-        public static Clip Generate(SpriteAtlas spriteAtlas, string prefix, float fps, bool isLooping)
+        public static Clip Generate(SpriteAtlas spriteAtlas, string prefix, float fps, bool isLooping, int frameCount)
         {
             var icon_anime_v2 = ScriptableObject.CreateInstance<Clip>();
             icon_anime_v2.m_SpriteAtlas = spriteAtlas;
-            icon_anime_v2.prefix = prefix;
-            icon_anime_v2.isLooping = isLooping;
-            icon_anime_v2.fps = fps;
+            icon_anime_v2.m_Prefix = prefix;
+            icon_anime_v2.m_IsLooping = isLooping;
+            icon_anime_v2.m_FPS = fps;
+            icon_anime_v2.m_FrameCount = frameCount;
             return icon_anime_v2;
         }
 #endif
