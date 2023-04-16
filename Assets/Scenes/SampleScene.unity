@@ -439,7 +439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayAutomatically: 1
-  m_IgnoreTimescale: 0
   m_icon_anime_v2_clip: {fileID: 11400000, guid: 4f26085b9478a4c789ef7821e7b0c9a1, type: 2}
 --- !u!114 &761169045
 MonoBehaviour:
@@ -602,7 +601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayAutomatically: 1
-  m_IgnoreTimescale: 0
   m_icon_anime_v2_clip: {fileID: 11400000, guid: 4f26085b9478a4c789ef7821e7b0c9a1, type: 2}
 --- !u!212 &1365276146
 SpriteRenderer:

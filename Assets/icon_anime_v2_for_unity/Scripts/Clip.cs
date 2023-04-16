@@ -48,7 +48,10 @@ namespace icon_anime_v2
             m_ListKeys = null;
         }
 
-        public Sprite GetFrame(int frameCount) => m_SpriteAtlas.GetSprite(m_ListKeys[frameCount]);
+        public Sprite GetFrame(int frameCount)
+        {
+            return m_SpriteAtlas.GetSprite(m_ListKeys[frameCount]);
+        }
 
 #if UNITY_EDITOR
         public static Clip Generate(SpriteAtlas spriteAtlas, string prefix, float fps, bool isLooping, int frameCount, float width, float height, float length)
