@@ -134,6 +134,9 @@ public class ClipGenerator : EditorWindow
         string fileName = "";
         bool isLooping = false;
         float fps = 30;
+        float width = 0;
+        float height = 0;
+        float length = 0;
         string[] pngPathes = Directory.GetFiles(srcDirectoryPath, "*.png");
         if (pngPathes.Length == 0) return;
         // 
@@ -150,9 +153,25 @@ public class ClipGenerator : EditorWindow
                 AssetDatabase.MoveAsset(pngPath, file_path);
             }
 
+
+            // Textureのインポートの設定をSpriteに変更する 
+            TextureImporterSettings settings = new TextureImporterSettings();
+            TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(file_path);
+            textureImporter.textureType = TextureImporterType.Sprite;
+            textureImporter.alphaIsTransparency = true;
+            textureImporter.ReadTextureSettings(settings);
+            textureImporter.SetTextureSettings(settings);
+
+            // 
+            AssetDatabase.ImportAsset(file_path);
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(file_path);
+            sprites.Add(sprite);
+
             // ファイル名を作る
             if (file_path.LastIndexOf($"{ORIGIN_NO}.png") != -1)
             {
+                width = sprite.rect.width;
+                height = sprite.rect.height;
                 fileName = Path.GetFileNameWithoutExtension(file_path).Replace(ORIGIN_NO, "");
 
                 prefix = fileName.Replace($"{ORIGIN_NO}.png", "");
@@ -179,17 +198,10 @@ public class ClipGenerator : EditorWindow
                     fileName = fileName.Replace(PREFIX_REND, "");
                 }
             }
+            length = (float)sprites.Count * (1.0F / fps);
 
-            // Textureのインポートの設定をSpriteに変更する 
-            TextureImporterSettings settings = new TextureImporterSettings();
-            TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(file_path);
-            textureImporter.textureType = TextureImporterType.Sprite;
-            textureImporter.alphaIsTransparency = true;
-            textureImporter.ReadTextureSettings(settings);
-            textureImporter.SetTextureSettings(settings);
-            AssetDatabase.ImportAsset(file_path);
-            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(file_path);
-            sprites.Add(sprite);
+
+
         }
 
         SpriteAtlas spriteAtlas = new SpriteAtlas();
@@ -216,7 +228,11 @@ public class ClipGenerator : EditorWindow
             prefix: prefix,
             fps: fps,
             isLooping: isLooping,
-            frameCount: sprites.Count);
+            frameCount: sprites.Count,
+            width: width,
+            height: height,
+            length: length
+            );
 
         AssetDatabase.CreateAsset(icon_anime_v2_prefab, prefabPath);
         AssetDatabase.SaveAssets();

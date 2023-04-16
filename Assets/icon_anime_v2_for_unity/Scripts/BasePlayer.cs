@@ -59,7 +59,7 @@ namespace icon_anime_v2
             var totalFrameCount = DurationToTotalFrameCount(m_ElapsedTime);
             var clampFrameCount = ClampFrameCount(totalFrameCount);
 
-            if (this.m_icon_anime_v2_clip.FrameCount <= totalFrameCount && this.m_icon_anime_v2_clip.IsLoopng == false)
+            if (this.m_icon_anime_v2_clip.FrameCount <= totalFrameCount && this.m_icon_anime_v2_clip.IsLooping == false)
             {
                 Stop();
                 return;
